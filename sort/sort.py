@@ -22,7 +22,7 @@ def selectionSort(seq):
 
     return seq
 
-def intertionSort(seq):
+def insert_sort(seq):
     num = len(seq)
 
     for i in range(1, num):
@@ -33,20 +33,24 @@ def intertionSort(seq):
                 break
     return seq
 
+def compare_two(seq):
+    num = len(seq)
+    if num <= 1:
+            return seq
+    elif num == 2:
+        if seq[0] > seq[1]:
+            seq[0], seq[1] = seq[1], seq[0]
+        return seq   
+
 def quickSort(seq):
     print(seq)
     num = len(seq)
 
-    if num <= 1:
-        return seq
-    elif num == 2:
-        if seq[0] > seq[1]:
-            seq[0], seq[1] = seq[1], seq[0]
-        return seq
+    if num <= 2:
+        return compare_two(seq)
 
     p = int(num / 2)
     pivot = seq[p]
-
 
     print("pivot : ",pivot, p)
 
@@ -63,12 +67,8 @@ def quickSort2(seq):
     print("input : ",seq)
     num = len(seq)
 
-    if num <= 1:
-        return seq
-    elif num == 2:
-        if seq[0] > seq[1]:
-            seq[0], seq[1] = seq[1], seq[0]
-        return seq
+    if num <= 2:
+        return compare_two(seq)
 
     p = num - 1
     pivot =seq[p]
@@ -93,6 +93,31 @@ def quickSort2(seq):
     print("after : ",seq)
     return quickSort2(seq[:i]) + quickSort2(seq[i:])
 
+def mergeSort(seq):
+    print("input : " ,seq)
+    num = len(seq)
+
+    if num <= 2:
+        return compare_two(seq)
+    
+    pivot = num // 2
+
+    seq1, seq2 = mergeSort(seq[:pivot]), mergeSort(seq[pivot:])
+    print(seq1, seq2)
+    len1, len2 = len(seq1), len(seq2)
+    a,b = 0, 0
+
+    result = []
+
+    while a != len1 or b != len2:
+        if a != len1 and (b == len2 or seq1[a] < seq2[b]):
+            result.append(seq1[a])
+            a += 1
+        else:
+            result.append(seq2[b])
+            b += 1
+    return result
+
 if __name__ == "__main__":
     #num = int(input())
     #seq = []
@@ -101,5 +126,5 @@ if __name__ == "__main__":
     # for i in range(0, num):
     #     seq.append(int(input()))
 
-    for i in selectionSort(seq):
+    for i in insert_sort(seq):
         print(i)
