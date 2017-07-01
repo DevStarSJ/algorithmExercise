@@ -12,12 +12,3 @@ def isPrime(num):
 
 primes = [2] + [x for x in range(3,2000001,2) if isPrime(x)]
 print(sum(primes))
-
-# for i in range(3,2000001,2):
-#     if isPrime(i):
-#         primes.append(i)
-#         print(i)
-
-# print(sum(primes))
-
-#142913828922
