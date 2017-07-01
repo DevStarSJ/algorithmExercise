@@ -7,7 +7,7 @@ namespace algorithm {
 
 		public static IEnumerable<T> QuickSort<T>(IEnumerable<T> src) where T : IComparable
 		{
-			if (src.Count() < 1)
+			if (!src.Any())
 				return src;
 
 			T pivot = src.ElementAt(src.Count() / 2);
