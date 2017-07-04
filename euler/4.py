@@ -4,18 +4,12 @@ def isPalindrome(num):
     s = str(num)
     start = 0
     end = len(s) - 1
-
-    while start < end:
-        if s[start] != s[end]:
-            return False
-        start += 1
-        end -= 1
-    return True
+    return s == s[::-1]
 
 maxPalindrome = 0
 
-for i in range(999,0,-1):
-    for j in range(999,0,-1):
+for i in range(999,111,-1):
+    for j in range(999,111,-1):
         k = i * j
         if maxPalindrome != 0 and k < maxPalindrome:
             break
