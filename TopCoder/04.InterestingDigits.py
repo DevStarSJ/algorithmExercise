@@ -8,24 +8,17 @@ def sum_digit_of_base(n, base):
     acc += n
     return acc
 
-def is_multiple(a, base):
-    return a % base == 0
+is_multiple = lambda num, base: num % base == 0
 
-def brute_force_compare(m, base):
+def brute_force_compare(num, base):
     sum_digit_of_this = F.curryr(sum_digit_of_base)(base)
-    for a in range(m, 1000, m):
-        is_multiple_of_num = F.curryr(is_multiple)(m)
-        is_correct = F.go(a, sum_digit_of_this, is_multiple_of_num)
-        if not is_correct:
-            return False
+    for x in range(num, 1000, num):
+        is_multiple_of_num = F.curryr(is_multiple)(num)
+        if F.go(x, sum_digit_of_this, is_multiple_of_num, F.is_false): return False
     return True
 
 def digits(base):
-    result = []
-    for i in range(2, base):
-        if brute_force_compare(i, base):
-            result.append(i)
-    return result
+    return [x for x in range(2, base) if brute_force_compare(x, base)]
 
 print(digits(10))
 print(digits(3))
