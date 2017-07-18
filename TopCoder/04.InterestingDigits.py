@@ -25,3 +25,15 @@ print(digits(3))
 print(digits(9))
 print(digits(26))
 print(digits(30))
+
+class InterestingDigits:
+    def digits(self, base):
+        nums = [(d0, d1, d2)
+               for d0 in range(base)
+               for d1 in range(base)
+               for d2 in range(base)]
+        check_multiple = lambda x: sum(d*(base**i) for i, d in enumerate(x))%n == 0
+        check_interesting = lambda x: sum(d for d in x)%n == 0
+        ans = [n for n in range(2, base)
+               if all(map(check_interesting, filter(check_multiple, nums)))]
+        return ans

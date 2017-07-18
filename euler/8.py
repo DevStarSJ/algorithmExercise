@@ -27,7 +27,7 @@ import functools
 s = functools.reduce(lambda x,y: x+y, p)
 
 max = 0
-for i in range(0,len(s)-4):
+for i in range(0,len(s)-5):
     v = functools.reduce(lambda x,y: x*y,[int(x) for x in s[i:i+5]])
     if v > max:
         max = v
