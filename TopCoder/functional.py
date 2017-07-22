@@ -96,6 +96,20 @@ def get(obj, key):
     if not is_dict(obj): return None
     return obj[key] if has_key(obj, key) else None
 
+def all(arg, pred):
+    if not is_sequence(arg): return False
+    for x in arg:
+        if not pred(x):
+            return False
+    return True
 
+def any(arg, pred):
+    if not is_sequence(arg): return False
+    for x in arg:
+        if pred(x):
+            return True
+    return False
 
-
+def sum(arg):
+    if not is_sequence(arg): return None
+    return reduce(arg,lambda a,b: a+b,0)

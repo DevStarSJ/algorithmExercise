@@ -1,9 +1,11 @@
-def thePouring(capacities, bottles, fromId, toId):
-    for f, t in zip(fromId, toId):
-        qty = min(capacities[t] - bottles[t], bottles[f])
-        bottles[f] -= qty;
-        bottles[t] += qty;
-    return bottles
+class KiwiJuiceEasy:
+    def thePouring(self, capacities, bottles, fromId, toId):
+        bottles = list(bottles)
+        for f, t in zip(fromId, toId):
+            qty = min(capacities[t] - bottles[t], bottles[f])
+            bottles[f] -= qty;
+            bottles[t] += qty;
+        return tuple(bottles)
 
 print(thePouring([20,20],[5,8],[0],[1]))
 print(thePouring([30,20,10],[10,5,5],[0,1,2],[1,2,0]))
