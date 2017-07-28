@@ -1,5 +1,3 @@
-import math
-
 class FriendScore:
     def highestScores(self, friends):
         num = len(friends)

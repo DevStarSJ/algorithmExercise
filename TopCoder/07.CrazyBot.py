@@ -31,6 +31,7 @@ class CrazyBot:
 
         for i in range(n):
             new_path = []
+            #print(paths)
             for p in paths:
                 if east > 0:
                     new_p = p + 'E'
