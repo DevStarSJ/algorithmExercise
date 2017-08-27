@@ -49,7 +49,7 @@ def divisors(origin):
             other_side = origin // current
             factors += [current, other_side]
         current += 1
-    return sorted(factors)
+    return sorted(list(set(factors)))
 
 def sum(arg):
     if not F.is_sequence(arg): return None
@@ -86,4 +86,9 @@ def is_amicable(a):
 def is_complete(a):
     b = sum(divisors(a)) - a
     return a == b
+
+# 초과수: 진약수의 합이 자신보다 큰 수
+def is_abundant_number(a):
+    b = sum(divisors(a)) - a
+    return a < b
 
