@@ -92,3 +92,11 @@ def is_abundant_number(a):
     b = sum(divisors(a)) - a
     return a < b
 
+def is_prime(num):
+    if num == 2 or num == 3: return True
+    if num % 2 == 0 or num % 3 == 0: return False
+
+    for i in range(3,int(math.sqrt(num))+1,2):
+        if num % i == 0: return False
+    return True
+
