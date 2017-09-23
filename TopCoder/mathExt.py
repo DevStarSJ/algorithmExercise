@@ -123,3 +123,6 @@ def powerset(iterable):
 def powerset_check_length(iterable, min_num, max_num):
     return [list(x) for x in powerset(iterable) if min_num <= len(x) <= max_num]
 
+def distance(p1, p2):
+    return math.sqrt(math.pow(p2[0] - p1[0], 2) + math.pow(p2[1] - p1[1], 2))
+
