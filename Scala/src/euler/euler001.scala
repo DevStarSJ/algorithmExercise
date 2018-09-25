@@ -1,6 +1,6 @@
 package euler
 
-object ex001 {
+object euler001 {
   def main(args: Array[String]) {
     val M = new MathExt()
 
