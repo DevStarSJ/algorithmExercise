@@ -101,3 +101,5 @@ ENV/
 .idea
 *.class
 
+node_modules
+*.lock

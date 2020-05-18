@@ -1,9 +1,9 @@
-const _ = require('lodash');
 const Mocha = require('mocha')
 const assert = require('assert')
 const mocha = new Mocha()
+const _ = require('functional-ts')
 
-class Mobil {
+class Mobile {
   constructor(value, count) {
     this.value = value;
     this.count = count;
@@ -15,76 +15,79 @@ class Mobil {
   }
 }
 
-function t1(arr) {
-
-}
-
-function countmap(arr) {
+function countmap(numbers) {
   let cm = {}
-  arr.forEach(e => cm[e] = cm[e] ? cm[e] + 1 : 1)
+  numbers.forEach(e => cm[e] = cm[e] ? cm[e] + 1 : 1)
   return cm
 }
 
-function toMobils(arr) {
-  return arr.map(e => new Mobil(e, 1))
+const toMobiles = numbers => numbers.map(e => new Mobile(e, 1))
+const toNumbers = mobiles => mobiles.map(m => m.value)
+const doubleMinValueOf = values => Math.min(...values) * 2
+const findBestCountOf = mobiles => Math.max(...mobiles.map(m => m.count)) || 1
+const getMoreThanTwoCountsOf = countMap => Object.keys(countMap)
+  .map(key => countMap[key] >= 2 ? key : null)
+  .filter(e => e > 0)
+
+function valuesOfMoreThanDoubleMin(values) {
+  const doubleMinValue = doubleMinValueOf(values)
+  return values.filter(e => e < doubleMinValue)
 }
 
-function toArr(mobilArr) {
-  return mobilArr.map(m => m.value)
+function run(numbers) {
+  const mobiles = toMobiles(numbers);
+  while (step(mobiles)) { }
+  return findBestCountOf(mobiles)
 }
 
-function step(mobilArr) {
-  const arr = toArr(mobilArr)
-  const cm = countmap(arr)
-  const valuesMoreThanTwo = Object.keys(cm).map(key => cm[key] >= 2 ? key : null).filter(e => e > 0)
+function step(mobiles) {
+  const cm = _.go(mobiles, toNumbers, countmap)
+  const valuesOfMoreThanTwoCounts =getMoreThanTwoCountsOf(cm)
+
+  if (valuesOfMoreThanTwoCounts.length === 0) return false
   
-  if (valuesMoreThanTwo.length === 0) return false
-  
-  const minValueMoreTwo = Math.min(...valuesMoreThanTwo)
-  const doubleMinValue = minValueMoreTwo * 2
-  
-  const moreBiggerThanDoubleMinValueAndHasTwoOrMoreKeys = valuesMoreThanTwo.filter(e => e < doubleMinValue)
-  
-  moreBiggerThanDoubleMinValueAndHasTwoOrMoreKeys.forEach(value => {
-    while (true) {
-      const first = popBestMobilOfThisValue(mobilArr, value)
-      const second = popBestMobilOfThisValue(mobilArr, value)
-      
-      if (first === undefined || second === undefined) break;
-      
-      first.merge(second)
-      mobilArr.push(first)
-    }
+  valuesOfMoreThanDoubleMin(valuesOfMoreThanTwoCounts).forEach(value => {
+    while (mergeMobilesLessThan(mobiles, value)) { }
   })
   
   return true
 }
 
-function run(arr) {
-  const mobilArr = toMobils(arr);
-  while (step(mobilArr)) { }
+function mergeMobilesLessThan(mobiles, value) {
+  const first = popBestMobileOfValue(mobiles, value)
+  const second = popBestMobileOfValue(mobiles, value)
   
-  return Math.max(...mobilArr.map(m => m.count)) || 1
+  if (first === undefined || second === undefined) return false;
+  
+  first.merge(second)
+  mobiles.push(first)
+
+  return true;
 }
 
-
-function popBestMobilOfThisValue(mobilArr, value) {
-  let selected = undefined;
-  let bestCount = -1;
-  mobilArr.forEach( (m, index) => {
-    if (m.value != value) return;
-    if (m.count > bestCount) {
-      bestCount = m.count
-      selected = index
-    }
-  })
+function popBestMobileOfValue(mobiles, value) {
+  const selected = findBestMobileOfValue(mobiles, value);
   
   if (selected === undefined) return undefined;
   
-  const popedMobil = mobilArr[selected]
-  mobilArr.splice(selected, 1)
+  const popedMobile = mobiles[selected]
+  mobiles.splice(selected, 1)
   
-  return popedMobil
+  return popedMobile
+}
+
+function findBestMobileOfValue(mobiles, value) {
+  let selected = undefined;
+  let bestCount = -1;
+  mobiles.forEach((mobile, index) => {
+    if (mobile.value != value)
+      return;
+    if (mobile.count > bestCount) {
+      bestCount = mobile.count;
+      selected = index;
+    }
+  });
+  return selected;
 }
 
 const q1 = [2,2,2,2,3,3,5,6];
@@ -97,15 +100,14 @@ console.log(run(q2))
 console.log(run(q3))
 console.log(run(q4))
 
-
 // Bit of a hack, sorry!
-mocha.suite.emit('pre-require', this, 'solution', mocha)
+// mocha.suite.emit('pre-require', this, 'solution', mocha)
 
-describe('Test suite', function() {
-  // it('popBestMobilOfThisValue', function() {
-  //   assert(run(q1) === 4)
-  //   assert(run(q2) === 5)
-  // })
-})
+// describe('Test suite', function() {
+//   // it('popBestMobileOfValue', function() {
+//   //   assert(run(q1) === 4)
+//   //   assert(run(q2) === 5)
+//   // })
+// })
 
-mocha.run()
+// mocha.run()

@@ -1,0 +1,13 @@
+{
+  "name": "algorithmExercise",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/DevStarSJ/algorithmExercise.git",
+  "author": "seokjoon.yun <seokjoon.yun@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "functional-ts": "^1.1.8",
+    "lodash": "^4.17.15",
+    "mocha": "^7.1.2"
+  }
+}
