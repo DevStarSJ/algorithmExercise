@@ -22,22 +22,24 @@ const matchableIndexes = (str, sPos, matchChar) => {
 }
 
 const isMatchAt = (str, patterns, sPos, pPos) => {
-  // console.log('isMatchAt', str, patterns, sPos, pPos)
-  if (str[sPos] == undefined && patterns[pPos] == undefined) return true
-  if (str[sPos] != undefined && patterns[pPos] == undefined) {
-    // console.log('str[sPos] != undefined && patterns[pPos] == undefined')
-    return false
-  }
-  if (str[sPos] == undefined && patterns[pPos] != undefined && patterns[pPos].length == 1) {
-    // console.log('str[sPos] == undefined && patterns[pPos] != undefined && patterns[pPos].length == 1')
-    return false
-  }
-  if (patterns[pPos] == '.' && str[sPos] != undefined) return isMatchAt(str, patterns, sPos+1, pPos+1)
-  if (patterns[pPos] == str[sPos]) return isMatchAt(str, patterns, sPos+1, pPos+1)
+  const isStrEnd = str[sPos] === undefined
+  const isStrExist = !isStrEnd
 
-  if (patterns[pPos].length == 2) {
-    if (str[sPos] == undefined) return isMatchAt(str, patterns, sPos, pPos+1)
-    const matchChar = patterns[pPos][0]
+  const pattern = patterns[pPos]
+  const isPatternsEnd = pattern === undefined
+  const isPatternsExist = !isPatternsEnd
+
+  // console.log('isMatchAt', str, patterns, sPos, pPos)
+  if (isStrEnd && isPatternsEnd) return true
+  if (isStrExist && isPatternsEnd) return false
+  if (isStrEnd && isPatternsExist && pattern.length == 1) return false
+  
+  if (pattern == '.' && isStrExist) return isMatchAt(str, patterns, sPos+1, pPos+1)
+  if (pattern == str[sPos]) return isMatchAt(str, patterns, sPos+1, pPos+1)
+
+  if (pattern.length == 2) {
+    if (isStrEnd) return isMatchAt(str, patterns, sPos, pPos+1)
+    const matchChar = pattern[0]
     // console.log('matchChar=',matchChar)
     if (str[sPos] != matchChar && matchChar != '.') return isMatchAt(str, patterns, sPos, pPos+1)
     // console.log(matchableIndexes(str, sPos, matchChar))
