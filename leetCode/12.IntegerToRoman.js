@@ -10,9 +10,7 @@ const divide = (num, divisor) => {
 }
 
 const toRoman = (divisor, letter) => (num) => {
-  // console.log('toRoman', divisor,letter)
   const { quotient, remainder } = divide(num, divisor);
-  console.log(quotient, remainder)
   return {
     roman: letter.repeat(quotient),
     remainder
