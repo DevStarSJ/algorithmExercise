@@ -9,7 +9,7 @@ const maxArea = (heights) => {
   const points = heights.map( (h, i) => [i, h])
   let maximum = 0
   for (let i = 0; i < points.length; i++) {
-    for (let j = 0; j < points.length; j++) {
+    for (let j = i+1; j < points.length; j++) {
       maximum = Math.max(maximum, area(points[i], points[j]))
     }
   }
