@@ -16,7 +16,10 @@ const display = (matrix) => {
   m.forEach(row => console.log(row.join('')))
 }
 
-const initMatrix = (sLen, pLen, pattern) => {
+const initMatrix = (str, pattern) => {
+  const sLen = str.length
+  const pLen = pattern.length
+
   let T = new Array(sLen + 1).fill(false).map(() => new Array(pLen + 1).fill(false))
   T[0][0] = true
   for (let j = 1; j < pLen + 1; j++) {
@@ -30,42 +33,25 @@ const isMatchAt = (s, p) => ((s == p)||(p == '.'))
 const isMatch = (str, pattern) => {
   const sLen = str.length
   const pLen = pattern.length
-  let T = initMatrix(sLen, pLen, pattern)
-
-  // console.log('INIT :')
-  // display(T)
+  let T = initMatrix(str, pattern)
 
   for (let i = 1; i < sLen + 1; i++) {
     for (let j = 1; j < pLen + 1; j++) {
-      // console.log('s =',str[i], 'p =', pattern[j], i, j)
-      if (isMatchAt(str[i-1], pattern[j-1])) {
+      if (isMatchAt(str[i-1], pattern[j-1]))
         T[i][j] = T[i-1][j-1]
-      } else if (pattern[j-1] == '*') {
-        // console.log('P[j-1] == * //', 'P[j-2] =', pattern[j-2], i, j)
-        if (T[i][j-2] === true) {
-          T[i][j] = true
-        } else if (isMatchAt(str[i-1], pattern[j-2])) {
-          // console.log('T[i-1][j]=', T[i-1][j], i, j, str[i-1], pattern[j-2])
+      else if (pattern[j-1] == '*') {
+        T[i][j] = T[i][j-2]
+        if (!T[i][j] && isMatchAt(str[i-1], pattern[j-2]))
           T[i][j] = T[i-1][j]
-        } else {
-          T[i][j] = false
-        }
-      } else {
+      } else
         T[i][j] = false
-      }
-
     }
-    // console.log('ROUND :', i)
-    // display(T)
   }
 
-  // console.log('result = ', T[sLen][sLen], pLen, sLen, T)
-
-  return T[sLen][pLen]
+  return T[sLen][pLen] == true
 };
 
 console.log(isMatch('ab', '.*') == true)
-
 console.log(isMatch("a", ".*..") == false)
 console.log(isMatch("bbbba", ".*a*a") == true)
 console.log(isMatch("aa", "a") == false)
