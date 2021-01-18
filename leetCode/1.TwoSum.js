@@ -4,19 +4,10 @@
  * @return {number[]}
  */
 
-const present = val => val !== undefined
-
 const twoSum = (nums, target) => {
-    let result = []
-    nums.some((num, i) => {
-        const rightIndex = nums.map((num2, j) => {
-            if (i == j) return undefined
-            if (num + num2 === target) return j
-        }).filter(present)
-        if (rightIndex.length === 1) {
-            result = [i, rightIndex[0]]
-            return true
+    for (let i = 0; i < nums.length - 1; i++) {
+        for (let j = i +1; j < nums.length; j++) {
+            if (nums[i] + nums[j] === target) return [i, j]
         }
-    })
-    return result
+    }
 };
