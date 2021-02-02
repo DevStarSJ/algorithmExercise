@@ -31,10 +31,10 @@ const getNodes = edges => edges.flatMap(edges => edges)
   .sort(asc)
   .filter(unique)
 
-const getEdgesFromNode = (node, edges) => {
+const getEdgesFromNode = (toNode, fromNode, edges) => {
   return edges.map(edge => {
-    if (edge.indexOf(node) >= 0) {
-      if (edge[0] === node) return edge
+    if (edge.indexOf(fromNode) >= 0 && edge.indexOf(toNode) < 0) {
+      if (edge[0] === fromNode) return edge
       else return [edge[1], edge[0]]
     }
     return undefined
@@ -51,7 +51,7 @@ const getMaxmimumLine = (fromNode, toNode, edges) => {
     if (fromCacheValue !== undefined) return fromCacheValue
   }
 
-  edgesFromNode = getEdgesFromNode(toNode, edges)
+  edgesFromNode = getEdgesFromNode(fromNode, toNode, edges)
 
   if (edgesFromNode.length === 0) return 0
   const nextNodes = getNodes(edgesFromNode).filter(v => v !== toNode)
@@ -62,7 +62,7 @@ const getMaxmimumLine = (fromNode, toNode, edges) => {
     const fromCacheValue = cache.find(toNode, nextNode)
     if (fromCacheValue !== undefined) return fromCacheValue
 
-    const depth = 1 + getMaxmimumLine(toNode, nextNode, removeEdge(toNode, nextNode, edges))
+    const depth = 1 + getMaxmimumLine(toNode, nextNode, edges)//removeEdge(toNode, nextNode, edges))
 
     // Push to cache
     cache.push(toNode, nextNode, depth)
